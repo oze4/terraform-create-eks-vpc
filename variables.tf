@@ -2,15 +2,15 @@ variable "eks_cluster" {
   description = "EKS Cluster"
 
   type = object({
-    name = string
+    name          = string
     worker_groups = list(object({}))
-    tags = object({})
+    tags          = object({})
   })
 
   default = {
-    name = "eks-00"
+    name          = "eks-00"
     worker_groups = []
-    tags = {}
+    tags          = {}
   }
 }
 
@@ -38,8 +38,8 @@ variable "vpc" {
     enable_dns_hostnames = true
     single_nat_gateway   = true
     enable_nat_gateway   = true
-    tags = {}
-    public_subnet_tags = {}
-    private_subnet_tags = {}
+    tags                 = {}
+    public_subnet_tags   = {}
+    private_subnet_tags  = {}
   }
 }

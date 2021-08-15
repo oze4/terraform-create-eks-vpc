@@ -1,9 +1,9 @@
 output "eks" {
   description = "EKS Cluster"
-  value = module.eks
+  value       = module.eks
 }
 
 output "vpc" {
   description = "VPC Info"
-  value = module.vpc
+  value       = module.vpc
 }
