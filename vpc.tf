@@ -1,5 +1,5 @@
 variable "region" {
-  default     = "us-east-2"
+  default     = "us-west-1"
   description = "AWS region"
 }
 
@@ -8,10 +8,6 @@ provider "aws" {
 }
 
 data "aws_availability_zones" "available" {}
-
-locals {
-  cluster_name = "education-eks-${random_string.suffix.result}"
-}
 
 resource "random_string" "suffix" {
   length  = 8
@@ -22,26 +18,24 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "3.2.0"
 
-  name                 = "education-vpc"
-  cidr                 = "10.0.0.0/16"
+  name                 = var.vpc.name
+  cidr                 = var.vpc.cidr
   azs                  = data.aws_availability_zones.available.names
-  private_subnets      = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-  public_subnets       = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
-  enable_nat_gateway   = true
-  single_nat_gateway   = true
-  enable_dns_hostnames = true
+  private_subnets      = var.vpc.private_subnets
+  public_subnets       = var.vpc.public_subnets
+  enable_nat_gateway   = var.vpc.enable_nat_gateway
+  single_nat_gateway   = var.vpc.single_nat_gateway
+  enable_dns_hostnames = var.vpc.enable_dns_hostnames
 
   tags = {
-    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
+    "kubernetes.io/cluster/${var.eks_cluster.name}" = "shared"
   }
-
   public_subnet_tags = {
-    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
+    "kubernetes.io/cluster/${var.eks_cluster.name}" = "shared"
     "kubernetes.io/role/elb"                      = "1"
   }
-
   private_subnet_tags = {
-    "kubernetes.io/cluster/${local.cluster_name}" = "shared"
+    "kubernetes.io/cluster/${var.eks_cluster.name}" = "shared"
     "kubernetes.io/role/internal-elb"             = "1"
   }
 }

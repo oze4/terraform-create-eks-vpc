@@ -1,6 +1,6 @@
 
-resource "aws_security_group" "worker_group_mgmt_one" {
-  name_prefix = "worker_group_mgmt_one"
+resource "aws_security_group" "eks_worker_group_00" {
+  name_prefix = "eks_worker_group_00"
   vpc_id      = module.vpc.vpc_id
 
   ingress {
@@ -14,8 +14,8 @@ resource "aws_security_group" "worker_group_mgmt_one" {
   }
 }
 
-resource "aws_security_group" "worker_group_mgmt_two" {
-  name_prefix = "worker_group_mgmt_two"
+resource "aws_security_group" "eks_worker_group_01" {
+  name_prefix = "eks_worker_group_01"
   vpc_id      = module.vpc.vpc_id
 
   ingress {
@@ -29,8 +29,8 @@ resource "aws_security_group" "worker_group_mgmt_two" {
   }
 }
 
-resource "aws_security_group" "all_worker_mgmt" {
-  name_prefix = "all_worker_management"
+resource "aws_security_group" "eks_worker_group_mgmt" {
+  name_prefix = "eks_worker_group_mgmt"
   vpc_id      = module.vpc.vpc_id
 
   ingress {
